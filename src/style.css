@@ -17,3 +17,80 @@ body
     left: 0;
     outline: none;
 }
+
+#container {
+	position: absolute;
+	height:30em;
+	width:90%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	/*border: 1px dashed white;*/
+}
+@media screen and (max-width:766px) {
+	#container {
+		height: 85vh;
+		width: 85vw;
+	}
+}
+
+
+#file_input{
+	position: absolute;
+	width:30%;
+	height:100%;
+    left:50%;
+	top:50%;
+	transform: translate(-50%, -50%);
+}
+@media screen and (max-width:766px) {
+	#file_input {
+		width: 19em;
+		height: 23em;
+	}
+}
+
+#file_input > input,
+#file_input > button {
+    position: absolute;
+	width: 50%;
+	height: 15%;
+	font-size: 1.2em;
+	font-weight:bold;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: white;
+	border: 2px solid #a6a6a6;
+	border-radius: 1em;
+	color: #099;
+}
+
+#file_input > input {
+	opacity: 0;
+}
+
+#file_input::after {
+	position: absolute;
+	content:"please upload 2 images";
+	text-align: center;
+	color: #595959;
+	width: 100%;
+	opacity: 0.5;
+	top: 65%;
+    left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#file_input::after{
+	animation: blink 2s ease-in-out infinite;
+	animation-direction: alternate;
+}
+@keyframes blink {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0.2;
+	}
+}

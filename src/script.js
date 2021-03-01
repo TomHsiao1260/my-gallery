@@ -5,9 +5,8 @@ import * as dat from 'dat.gui'
 import testVertexShader from './shaders/test/vertex.glsl'
 import testFragmentShader from './shaders/test/fragment.glsl'
 
-import img from './image/landview.jpg'
-
-console.log(img)
+import img from './image/view.jpg'
+import imgDepth from './image/viewHeight.jpg'
 
 // Debug
 const gui = new dat.GUI()
@@ -30,16 +29,36 @@ scene.add(directionalLight)
 
 let geometry, material, mesh, meshes = null
 
+const input = document.querySelector("#file_input input")
+
+input.addEventListener('change', e => {
+    const container = document.querySelector("#container")
+
+    if(input.files && input.files.length >= 0){
+        const URL = window.webkitURL || window.URL;
+
+        const url1 = URL.createObjectURL(e.target.files[0]);
+        const url2 = URL.createObjectURL(e.target.files[1]);
+
+        textureLoader.load(url1, (texture) => createImage(texture, url2))
+    }
+    container.style.display = 'none';
+})
+
 // Geometry
 const textureLoader = new THREE.TextureLoader()
-textureLoader.load(img, (texture) => createImage(texture))
+// textureLoader.load(img, (texture) => createImage(texture, imgDepth))
 
 const geometry_ = new THREE.PlaneGeometry(1.5, 1.5, 32, 32)
 
-function createImage(texture) {
+function createImage(texture, imgDepth) {
+    textureLoader.load(imgDepth, (texture_) => createImage_(texture, texture_))
+}
+
+function createImage_(texture, texture_) {
     const ratio = texture.image.width / texture.image.height
 
-    geometry = new THREE.PlaneGeometry(1.0*ratio, 1.0, 32, 32)
+    geometry = new THREE.PlaneGeometry(0.7*ratio, 0.7, 32, 32)
 
     material = new THREE.ShaderMaterial({
         vertexShader: testVertexShader,
@@ -48,6 +67,7 @@ function createImage(texture) {
         {
             uTime    : { value: 0 },
             uTexture : { value: texture },
+            uTexture_: { value: texture_ },
             uPoint   : { value: new THREE.Vector2() },
         }
     })
