@@ -1,11 +1,14 @@
 uniform sampler2D uTexture;
-uniform vec2 uPoint;
+
 varying vec2 vUv;
+varying float vStrength2;
+varying float vStrength3;
 
 void main()
 {
-    gl_FragColor = texture2D(uTexture, vUv);
-    gl_FragColor.rgb -= vec3(distance(uPoint, vUv) * 0.3);
+	vec4 mask  = texture2D(uTexture, vUv);
 
-    // gl_FragColor = vec4(vec3(vUv, 1.0), 1.0);
+    gl_FragColor = mask;
+    gl_FragColor.rgb -= vec3(vStrength2);
+    gl_FragColor.rgb -= vec3(vStrength3);
 }
