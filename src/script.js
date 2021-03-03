@@ -78,8 +78,9 @@ const geometry_ = new THREE.PlaneGeometry(1.5, 1.5, 32, 32)
 
 function createImage(texture) {
     const ratio = texture.image.width / texture.image.height
+    const amp = Math.sqrt(0.5 / ratio)
 
-    geometry = new THREE.PlaneGeometry(1.0*ratio, 1.0, 32, 32)
+    geometry = new THREE.PlaneGeometry(amp*ratio, amp, 100, 100)
 
     material = new THREE.ShaderMaterial({
         vertexShader: testVertexShader,
@@ -115,7 +116,7 @@ function createImage(texture) {
 
     scene.add(mesh)
 
-    const geometry_ = new THREE.PlaneGeometry(1.0*ratio, 1.0, 32, 32)
+    const geometry_ = new THREE.PlaneGeometry(amp*ratio, amp, 32, 32)
     const material_ = new THREE.MeshBasicMaterial({color: '#404040'})
     const backPlane = new THREE.Mesh(geometry_, material_)
 
@@ -144,10 +145,6 @@ function createImage(texture) {
     river2.add(material.uniforms.uStrength3, 'value').min(0).max(1).step(0.01).name('strength')
     river2.add(material.uniforms.uAngle3, 'value').min(-1).max(1).step(0.01).name('angle2')
 }
-
-// gui.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001).name('lightY')
-// gui.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001).name('lightZ')
-// gui.add(directionalLight, 'intensity').min(0).max(10).step(0.001).name('lightIntensity')
 
 // Material
 const material_ = new THREE.MeshStandardMaterial()
